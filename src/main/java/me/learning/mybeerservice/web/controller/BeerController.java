@@ -12,22 +12,27 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.extern.slf4j.Slf4j;
 import me.learning.mybeerservice.web.model.BeerDTO;
+import me.learning.mybeerservice.web.model.BeerStyle;
 
 @RestController
+@Slf4j
 @RequestMapping("/api/v1/beer")
 public class BeerController {
 
 	@GetMapping("/{beerId}")
 	public ResponseEntity<BeerDTO> getBeerById(@PathVariable("beerId") UUID uuid) {
-		return new ResponseEntity<BeerDTO>(BeerDTO.builder().build(), HttpStatus.OK);
+		log.info("getBeerById service was invoked");
+		return new ResponseEntity<BeerDTO>(BeerDTO.builder().beerStyle(BeerStyle.DRAUGHT).beerName("BeerTown").build(),
+				HttpStatus.OK);
 	}
 
 	@PostMapping
 	public ResponseEntity<BeerDTO> saveNewBeer(@RequestBody BeerDTO beerDTO) {
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
-	
+
 	@PutMapping("/{beerId}")
 	public ResponseEntity<BeerDTO> updateBeerById(@PathVariable("beerId") UUID uuid, @RequestBody BeerDTO beerDTO) {
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
